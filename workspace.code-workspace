@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"name": "dataManipulation-python",
+			"path": "vscode/dataManipulation-python"
+		}
+	],
+	"settings": {}
+}

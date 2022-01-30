@@ -1,6 +1,7 @@
 from multiprocessing import connection
 import sqlite3 
 import sys
+from typing import Counter
 
 from sqlalchemy import true
 
@@ -9,13 +10,13 @@ connection = sqlite3.connect("people.db")
 cursor = connection.cursor()
 
 try:
-    cursor.execute("CREATE TABLE people(name TEXT, age INTEGER, skills STRING)")
+    cursor.execute("CREATE TABLE people(name TEXT, age INTEGER,country STRING, skills STRING)")
 
 except Exception as e:
     pass
 
 def user_is_unique(name):
-    rows = cursor.execute("SELECT name, age, skills FROM people").fetchall()
+    rows = cursor.execute("SELECT name, age, country, skills FROM people").fetchall()
 
     for user in rows:
         if user[0] == name:
@@ -29,9 +30,10 @@ def insert_db():
     if user_is_unique(str(name)):
         age = input("Age>>")
         skills = input("Skill>>")
+        country = input("Country>>")
 
-        if name != "" and age != "" and skills != "":
-            cursor.execute(f"INSERT INTO people VALUES ('{name}', '{age}', '{skills}')")
+        if name != "" and age != "" and skills != "" and country != "":
+            cursor.execute(f"INSERT INTO people VALUES ('{name}', '{age}','{country}', '{skills}')")
             connection.commit()
             print(name + " has been added tot the database!")
 
@@ -62,9 +64,10 @@ def get_user_info_db():
 
     name = rows [0][0]
     age = rows [0][1]
-    skills = rows [0][2]
+    country = rows [0][2]
+    skills = rows [0][3]
 
-    print(f"{name} is {age} years old, and works as a {skills}.")
+    print(f"{name} is {age} years old, and works in {country} as a {skills}.")
 
 def delete_db():
     name = input("Please type the name of the person that you would like to delete >>")
@@ -80,7 +83,7 @@ def display_db():
 
     print("Users: ")
     for user in rows:
-        print(f"- {user[0]}, {user[1]}, {user[2]}")
+        print(f"- {user[0]}, {user[1]}, {user[2]}, {user[3]}")
 
     
 def exit_db():
