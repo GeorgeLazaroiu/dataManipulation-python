@@ -29,8 +29,9 @@ def insert_db():
 
     if user_is_unique(str(name)):
         age = input("Age>>")
-        skills = input("Skill>>")
         country = input("Country>>")
+        skills = input("Skill>>")
+        
 
         if name != "" and age != "" and skills != "" and country != "":
             cursor.execute(f"INSERT INTO people VALUES ('{name}', '{age}','{country}', '{skills}')")
@@ -46,7 +47,7 @@ def insert_db():
 
 def modify_db():
     name = input("Type the name of the person you'd like to edit >>")
-    field = input("Which field would you like to edit: name, age or skills ? >>")
+    field = input("Which field would you like to edit: name, age, country or skills ? >>")
     update_field = input("What would you like to update it to >>")
 
     try:   
