@@ -31,7 +31,7 @@ def insert_db():
         skills = input("Skill>>")
 
         if name != "" and age != "" and skills != "":
-            cursor.execute(f"INSERT INTO people VALUES ('{name}, {age}, {skills}')")
+            cursor.execute(f"INSERT INTO people VALUES ('{name}', '{age}', '{skills}')")
             connection.commit()
             print(name + " has been added tot the database!")
 
@@ -99,7 +99,8 @@ def select_option():
     type 'del' to delete users;
     type 'edit' to modify users;
     type 'inf' to get user information;
-    """
+    
+    >>"""
     )
 
     if option == 'exit':
