@@ -2,6 +2,8 @@ from multiprocessing import connection
 import sqlite3 
 import sys
 
+from sqlalchemy import true
+
 connection = sqlite3.connect("people.db")
 
 cursor = connection.cursor()
@@ -56,12 +58,74 @@ def modify_db():
 
 def get_user_info_db():
     target_name = input("who do you want to see information about? >>")
-    rows = cursor.execute ("SELECT name, age, skills FROM people WHERE name = ?", (target_name)).fetchall
+    rows = cursor.execute ("SELECT name, age, skills FROM people WHERE name = ?", (target_name),).fetchall()
 
-    try:
+    name = rows [0][0]
+    age = rows [0][1]
+    skills = rows [0][2]
+
+    print(f"{name} is {age} years old, and works as a {skills}.")
+
+def delete_db():
+    name = input("Please type the name of the person that you would like to delete >>")
+
+    if name != "":
+        cursor.execute("DELETE FROM people WHERE name = ?", (name),)
         connection.commit()
-        print("This is the user >>")
 
-    except Exception as e:
-        print(e)
+        print("User successfully deleted!")
+
+def display_db():
+    rows = cursor.execute("SELECT name, age, skills FROM people ORDER BY name ASC").fetchall()
+
+    print("Users: ")
+    for user in rows:
+        print(f"- {user[0]}, {user[1]}, {user[2]}")
+
+    
+def exit_db():
+    cursor.close()
+    connection.close()
+    sys.exit()
+
+
+
+def select_option():
+    option = input("""
+    
+    type 'exit' to exit;
+    type 'ins' to insert;
+    type 'dis' to display users;
+    type 'del' to delete users;
+    type 'edit' to modify users;
+    type 'inf' to get user information;
+    """
+    )
+
+    if option == 'exit':
+        exit_db()
+
+    if option == 'ins':
+        insert_db()
+
+    if option == 'dis':
+        display_db()
+
+    if option == 'del':
+        delete_db()
+
+    if option == 'edit':
+        modify_db()
+
+    if option == 'inf':
+        get_user_info_db()
+
+
+
+#infinite loop 
+while True:
+    select_option()
+
+
+
 
