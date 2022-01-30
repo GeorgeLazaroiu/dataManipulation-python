@@ -79,7 +79,7 @@ def delete_db():
         print("User successfully deleted!")
 
 def display_db():
-    rows = cursor.execute("SELECT name, age, skills FROM people ORDER BY name ASC").fetchall()
+    rows = cursor.execute("SELECT name, age, country, skills FROM people ORDER BY name ASC").fetchall()
 
     print("Users: ")
     for user in rows:
